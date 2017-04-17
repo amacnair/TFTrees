@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -104,8 +105,14 @@ public class BranchLine {
 		// Check if the statement is decomposable and it is not the negation of an atomic statement
 		if (statement == null)
 			return null;
-		if (decomposedFrom == null && !isPremise)
-			return "Unexpected statement \"" + statement.toString() + "\" in tree";
+		if (decomposedFrom == null && !isPremise) {
+			if (!verifyIsBranchOn()) { // also check if the statement is not branching on any statment + negation of that statement
+				return "Unexpected statement \"" + statement.toString() + "\" in tree";
+			} else {
+				return null;
+			}
+			
+		}
 		if (statement instanceof Decomposable &&
 				!(statement instanceof Negation && (((Negation)statement).getNegand() instanceof AtomicStatement)))
 		{
@@ -214,6 +221,38 @@ public class BranchLine {
 		return null;
 	}
 	
+	/**
+	 * Verifies if this statement is part of a statement and its negation branching (branch on any P and ~P, for example)
+	 * @return true if this is a valid BranchOn, false otherwise
+	 */
+	private boolean verifyIsBranchOn() {
+
+		// if the direct root has more or less than 2 branches, or if this BranchLine is not the first BranchLine in this branch,
+		// then will return false 
+		if (parent.getRoot() == null || parent.getRoot().getBranches().size() != 2 || !parent.getStatement(0).equals(statement)) {
+			return false;
+		}
+		else { // compare to the first BranchLine in the sister branch to see if they are each other's negations
+			Iterator<Branch> branchItr = parent.getRoot().getBranches().iterator();
+
+			while (branchItr.hasNext()) {
+				Branch temp = branchItr.next();
+				if (!temp.getStatement(0).equals(statement)) { // then it is the other branch in this set of two branches
+					if ((temp.getStatement(0) instanceof Negation && ((Negation)temp.getStatement(0)).getNegand().equals(statement)) ||
+							(statement instanceof Negation && ((Negation)statement).getNegand().equals(temp.getStatement(0))) ) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+			return false;
+		}
+		
+		
+		
+	}
+
 	public static boolean satisfiesAllBranches(Branch root, Set<Branch> descendents)
 	{
 		if (descendents.contains(root) || root.isClosed())
