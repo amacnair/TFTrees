@@ -106,7 +106,7 @@ public class BranchLine {
 		if (statement == null)
 			return null;
 		if (decomposedFrom == null && !isPremise) {
-			if (!verifyIsBranchOn()) { // also check if the statement is not branching on any statment + negation of that statement
+			if (!verifyIsBranchOn()) { // also check if the statement is not branching on any statement + negation of that statement
 				return "Unexpected statement \"" + statement.toString() + "\" in tree";
 			} else {
 				return null;
