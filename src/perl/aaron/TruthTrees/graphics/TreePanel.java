@@ -392,25 +392,14 @@ public class TreePanel extends JPanel {
 	 * and that all of the branches are closed).
 	 * @return null if complete, an error message otherwise
 	 */
-	public int checkCompletion()
+	public String checkCompletion()
 	{
-		
 		boolean isOpen = checkForOpenBranch(root);
 		boolean allClosed = checkForAllClosed(root);
-		
-		if (!isOpen && allClosed) {
-			return 1;
-		} else if (isOpen) {
-			return 0;
-		} else {
-			return -1;
-		}
-//		
-//		
-//		if (isOpen || allClosed)
-//			return null;
-//		else
-//			return "Not all branches are closed and no branch has been marked as open!";
+		if (isOpen || allClosed)
+			return null;
+		else
+			return "Not all branches are closed and no branch has been marked as open!";
 	}
 	
 	/**
@@ -453,23 +442,15 @@ public class TreePanel extends JPanel {
 	 */
 	public String check()
 	{
-		
-		int completionVal = checkCompletion();
-		if (completionVal == -1) {
-			return "Not all branches are closed and no branch has been marked as open!";
-		} else if (completionVal == 1) {
-			return null;
-			
-		}
-			
-		
 		String checkRet = checkBranch(premises);
 		if (checkRet != null)
 			return checkRet;
 		String branchVal = checkBranch(root);
 		if (branchVal != null)
 			return branchVal;
-		
+		String completionVal = checkCompletion();
+		if (completionVal != null)
+			return completionVal;
 		return null;
 	}
 	
