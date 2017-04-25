@@ -21,7 +21,7 @@ public class Branch {
 	public static final int BRANCH_SEPARATION = 10;
 	public static final int VERTICAL_GAP = 20;
 	public static final int LABEL_BORDER = 5;
-	public static final int MIN_WIDTH = 80;
+	public static final int MIN_WIDTH = 100;
 	private List<BranchLine> lines;
 	private Set<Branch> branches;
 	private Branch root;
@@ -303,7 +303,7 @@ public class Branch {
 		else
 			return 0;
 	}
-	
+
 	/**
 	 * Calculates and sets the widest line in this branch
 	 */

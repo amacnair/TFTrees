@@ -32,6 +32,8 @@ public class BranchLine {
 	public static final Color SELECTED_COLOR = new Color(0.3f,0.9f,0.9f);
 	public static final Color DEFAULT_COLOR = Color.LIGHT_GRAY;
 	public static final Color EDIT_COLOR = Color.GREEN;
+  public boolean typing = false;
+  public String currentTyping;
 
 	public BranchLine(Branch branch)
 	{
@@ -72,7 +74,10 @@ public class BranchLine {
 	
 	public int getWidth(FontMetrics f)
 	{
-		return f.stringWidth(toString());
+    if (typing)
+      return f.stringWidth(currentTyping);
+    else
+      return f.stringWidth(toString());
 	}
 	
 	public Set<BranchLine> getSelectedLines()

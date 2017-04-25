@@ -954,11 +954,15 @@ public class TreePanel extends JPanel {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
+        line.typing = true;
 				if (e.getKeyChar() == KeyEvent.VK_ENTER)
 				{
+          line.typing = false;
 					TreePanel.this.requestFocus();
 				}
 				TreePanel.this.dispatchEvent(e);
+        line.currentTyping = newField.getText();
+        moveComponents();
 			}
 		});
 		// Parse the statement when focus is lost
@@ -966,6 +970,7 @@ public class TreePanel extends JPanel {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
+        line.typing = false;
 				Statement newStatement = ExpressionParser.parseExpression(newField.getText());
 				if (newStatement != null)
 				{

@@ -2,3 +2,4 @@ bin/
 /plans/
 /examples/
 /grading/
+*.swp

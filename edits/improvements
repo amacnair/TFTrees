@@ -1,4 +1,15 @@
 --------------------------------------------------------------------------------------------------------------------
+Big ideas
+--------------------------------------------------------------------------------------------------------------------
+Instead of current error and parse system, do this:
+-- Parsing
+---- Only parse on tree check
+---- Make marks next to invalid branch statements
+-- Error
+---- Similar system of marks next to branchs
+-- Hover over marks to see cause
+
+--------------------------------------------------------------------------------------------------------------------
 Logic
 --------------------------------------------------------------------------------------------------------------------
 
@@ -36,6 +47,7 @@ GUI
 Switching focus to another application while editing logic statement errors
 -- If statement is incomplete (e.g. Ex) program spits an error and returns to last used  statement
 
+* - added a public string and boolean used as temporary holders
 Line cell contents not updated until either Enter pressed or lose focus
 -- Results in above issue
 -- If tree is checked before one of those two things, results in incorrect tree check
@@ -44,7 +56,7 @@ Line cell contents not updated until either Enter pressed or lose focus
 Allow ability to add lines at any spot in tree.
 -- Like Fitch: ‘add after’, ‘add before’
 
-*
+* - fully done
 Auto replace logic characters
 -- & - ^, | - v, etc.
 
