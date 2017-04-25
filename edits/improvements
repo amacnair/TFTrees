@@ -1,0 +1,86 @@
+--------------------------------------------------------------------------------------------------------------------
+Logic
+--------------------------------------------------------------------------------------------------------------------
+
+Tree should check out when finished, even if not all statements have been decomposed
+-- If open branch found, don't worry bout other branches
+-- Probably require lots of reworking
+
+Sometimes ‘check tree’ says nothing
+-- Need example
+
+After deleting a line, the check mechanism seems to be effected as well …
+
+When checking tree, list *all* mistakes
+
+Say a little more about any mistake,
+-- Why exactly is it a mistake?
+
+--------------------------------------------------------------------------------------------------------------------
+Branches
+--------------------------------------------------------------------------------------------------------------------
+
+Deleting branch might leave orphan line
+
+Branch bullshit
+-- Don't add branches to an unpaired branch...
+-- Might end up with orphan lines when deleting branches
+-- Also not entirely connected to original branch
+
+Adding branch in wrong spot then adding another in right spot affects which is allowed to be selected in proof
+
+--------------------------------------------------------------------------------------------------------------------
+GUI
+--------------------------------------------------------------------------------------------------------------------
+
+Switching focus to another application while editing logic statement errors
+-- If statement is incomplete (e.g. Ex) program spits an error and returns to last used  statement
+
+Line cell contents not updated until either Enter pressed or lose focus
+-- Results in above issue
+-- If tree is checked before one of those two things, results in incorrect tree check
+-- Cell doesn't adjust size as charcters typed
+
+Allow ability to add lines at any spot in tree.
+-- Like Fitch: ‘add after’, ‘add before’
+
+*
+Auto replace logic characters
+-- & - ^, | - v, etc.
+
+--------------------------------------------------------------------------------------------------------------------
+Menu
+--------------------------------------------------------------------------------------------------------------------
+
+Save should be a save not save as
+-- Remember current directory
+
+Help
+-- More instructions
+-- Edit copywrites?
+
+Changable font sizes
+
+Have file menu keep track of where you got the last file
+-- Looks like great minds think alike
+
+--------------------------------------------------------------------------------------------------------------------
+Movement
+--------------------------------------------------------------------------------------------------------------------
+
+Mouse can change position in text
+-- Change when selecting box but not when already selected
+
+- movement improvements?
+-- arrow keys for going up and down lines?
+
+--------------------------------------------------------------------------------------------------------------------
+Unclear Issues
+--------------------------------------------------------------------------------------------------------------------
+
+For some reason it does not always load files.
+-- Typically after it has encountered some kind of issue with checking a tree.
+
+Add assessment button/window (basically: are statements satisfiable Yes/No?)
+-- Huh?
+

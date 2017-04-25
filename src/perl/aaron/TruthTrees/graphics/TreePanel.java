@@ -846,6 +846,14 @@ public class TreePanel extends JPanel {
 					super.insertString(fb, offset, "\u2200", attr);
 				else if (string.equals("/"))
 					super.insertString(fb, offset, "\u2203", attr);
+				else if (string.equals("|"))
+					super.insertString(fb, offset, "\u2228", attr);
+				else if (string.equals("&"))
+					super.insertString(fb, offset, "\u2227", attr);
+				else if (string.equals("~"))
+					super.insertString(fb, offset, "\u00AC", attr);
+				else if (string.equals("!"))
+					super.insertString(fb, offset, "\u00AC", attr);
 				else
 					super.insertString(fb, offset, string, attr);
 			}
@@ -866,6 +874,14 @@ public class TreePanel extends JPanel {
 					super.replace(fb, offset, length, "\u2200", attrs);
 				else if (text.equals("/"))
 					super.replace(fb, offset, length, "\u2203", attrs);
+				else if (text.equals("|"))
+					super.replace(fb, offset, length, "\u2228", attrs);
+				else if (text.equals("&"))
+					super.replace(fb, offset, length, "\u2227", attrs);
+				else if (text.equals("~"))
+					super.replace(fb, offset, length, "\u00AC", attrs);
+				else if (text.equals("!"))
+					super.replace(fb, offset, length, "\u00AC", attrs);
 				else
 					super.replace(fb, offset, length, text, attrs);
 				
