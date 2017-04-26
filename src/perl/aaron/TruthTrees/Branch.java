@@ -344,6 +344,23 @@ public class Branch {
 	}
 	
 	/**
+	 * Returns whether the or not this branch has all of its
+	 * branch terminations verified
+	 * @return True if the branch has a BranchTerminator that is verified
+	 */
+	public boolean verifyTerminations()
+	{
+		for (int i = lines.size() - 1; i >= 0; i--) // start from the end, since it should be the last line
+		{
+			//String verifyResult = ((BranchTerminator)(lines.get(i))).verifyDecomposition();
+			if (lines.get(i) instanceof BranchTerminator &&
+					((BranchTerminator)(lines.get(i))).verifyDecomposition() == null)
+				return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Returns whether or not this branch is open
 	 * @return True if the branch has a BranchTerminator set to open
 	 */
