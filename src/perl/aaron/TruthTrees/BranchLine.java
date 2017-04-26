@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import perl.aaron.TruthTrees.logic.AtomicStatement;
+import perl.aaron.TruthTrees.logic.Composable;
 import perl.aaron.TruthTrees.logic.Decomposable;
 import perl.aaron.TruthTrees.logic.Statement;
 import perl.aaron.TruthTrees.logic.Negation;
@@ -100,13 +101,36 @@ public class BranchLine {
 		return parent;
 	}
 	
+	
+	/**
+	 * 
+	 * @return an error string if the composition is invalid, otherwise null
+	 */
+	public String verifyComposition() {
+//		// if the statement is null or if it is a premise or it is a branch on (e.g. branch on P and not P), 
+//		// it does not need to be composed
+//		if (statement == null || isPremise || verifyIsBranchOn())
+//			return null;
+//		
+//		
+//		// if the statement is Composable (meaning the statement should be composed from other statements),
+//		// but there are no selected branches, then this is an problem)
+//		if (statement instanceof Composable && !selectedBranches.isEmpty()) {
+//			return "The statement \"" + statement.toString() + "\" should be composed from other statements";
+//			
+//		}
+		
+		
+		return null;
+	}
+	
 	public String verifyDecomposition()
 	{
 		// Check if the statement is decomposable and it is not the negation of an atomic statement
 		if (statement == null)
 			return null;
 		if (decomposedFrom == null && !isPremise) {
-			if (!verifyIsBranchOn()) { // also check if the statement is not branching on any statment + negation of that statement
+			if (!verifyIsBranchOn()) { // also check if the statement is not branching on any statement + negation of that statement
 				return "Unexpected statement \"" + statement.toString() + "\" in tree";
 			} else {
 				return null;
