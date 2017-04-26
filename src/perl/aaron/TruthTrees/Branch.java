@@ -189,7 +189,7 @@ public class Branch {
 	/**
 	 * Adds a Branch to the set of Branches stemming from this Branch
 	 * (Automatically called by constructor)
-	 * @param b
+	 * @param b the Branch to be added
 	 */
 	public void addBranch(Branch b)
 	{
