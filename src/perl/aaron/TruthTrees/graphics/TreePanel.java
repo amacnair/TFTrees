@@ -361,7 +361,17 @@ public class TreePanel extends JPanel {
 	 */
 	private String checkLine(BranchLine l)
 	{
-		return l.verifyDecomposition();
+		String decomposed = l.verifyDecomposition();
+		String composed = l.verifyComposition();
+		
+		if (decomposed==null) {
+			return composed;
+		} else {
+			return decomposed;
+		}
+		
+//		System.out.println(l.verifyDecomposition());
+//		return l.verifyDecomposition();
 	}
 
 	/**

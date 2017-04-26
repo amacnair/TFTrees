@@ -1,9 +1,10 @@
 package perl.aaron.TruthTrees.logic;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
-public class AtomicStatement extends Statement {
+public class AtomicStatement extends Statement implements Composable {
 	private String _symbol;
 	/**
 	 * Creates an atomic statement with a given symbol
@@ -41,6 +42,16 @@ public class AtomicStatement extends Statement {
 			return false;
 		return ((AtomicStatement)other).getSymbol().equals(_symbol);
 	}
+	
+	public boolean verifyDecomposition(List<List<Statement>> branches, Set<String> constants, Set<String> constantsBefore) {
+		
+		
+		
+		
+		return true;
+		
+	}
+	
 	@Override
 	public Set<String> getVariables() {
 		return Collections.emptySet();
@@ -54,4 +65,12 @@ public class AtomicStatement extends Statement {
 		if (unbound.equals(this)) return Binding.EMPTY_BINDING;
 		else return null;
 	}
+	
+	@Override
+	public boolean verifyComposition(List<List<Statement>> branches, Set<String> branchConstants,
+			Set<String> constantsBefore) {
+
+		return true;
+	}
+	
 }
