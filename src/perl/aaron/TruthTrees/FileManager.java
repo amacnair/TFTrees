@@ -34,12 +34,56 @@ import perl.aaron.TruthTrees.logic.Statement;
 
 public class FileManager {
 	private static final String EXTENSION = "tft";
+<<<<<<< HEAD
+=======
+  private static File SAVEDIR;
+
+
+  public static ArrayList<File> listFolderFilesStart(TreePanel parent)
+  {
+    // codes needs to be updated to allow choosing a directory with JFileChooser
+    // look at http://www.rgagnon.com/javadetails/java-0370.html
+    /*
+    final JFileChooser fileChooser = new JFileChooser(SAVEDIR);
+    if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION)
+    {
+      File file = fileChooser.getSelectedFile();
+      SAVEDIR = new File(file.getPath());
+      System.out.println(file.getName());
+      return listFolderFiles(file);
+    }
+    return null;
+    */
+    File dir = new File("examples");
+    return listFolderFiles(dir);
+  }
+
+  public static ArrayList<File> listFolderFiles(File dir)
+  {
+    File[] filesAndFolders = dir.listFiles();
+    ArrayList<File> files = new ArrayList<File>();
+    
+    if (filesAndFolders != null)
+    {
+      for (int i = 0; i < filesAndFolders.length; i++)
+      {
+        if (filesAndFolders[i].isDirectory())
+          files.addAll(listFolderFiles(filesAndFolders[i]));
+        else
+          files.add(filesAndFolders[i]);
+      }
+    }
+    return files;
+  }
+  
+>>>>>>> Remembers last opened directory
 	public static TreePanel loadFile(TreePanel parent)
 	{
-		final JFileChooser fileChooser = new JFileChooser();
+		final JFileChooser fileChooser = new JFileChooser(SAVEDIR);
 		if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION)
 		{
 			File file = fileChooser.getSelectedFile();
+      SAVEDIR = new File(file.getPath());
 			System.out.println(file.getName());
 			return loadFromFile(file);
 		}
@@ -48,7 +92,7 @@ public class FileManager {
 	
 	public static void saveFile(TreePanel parent)
 	{
-		final JFileChooser fileChooser = new JFileChooser();
+		final JFileChooser fileChooser = new JFileChooser(SAVEDIR);
 		FileNameExtensionFilter tftFilter = new FileNameExtensionFilter(
 		  EXTENSION + " files(*." + EXTENSION + ")",
 		  EXTENSION);
@@ -61,6 +105,7 @@ public class FileManager {
 			File file = fileChooser.getSelectedFile();
 			if (fileChooser.getFileFilter() == tftFilter && !file.getName().endsWith("." + EXTENSION))
 				file = new File(file.getAbsolutePath() + "." + EXTENSION);
+      SAVEDIR = new File(file.getPath());
 			System.out.println(file.getName());
 			saveToFile(parent.getRootBranch(), file, parent);
 		}
