@@ -361,17 +361,7 @@ public class TreePanel extends JPanel {
 	 */
 	private String checkLine(BranchLine l)
 	{
-		String decomposed = l.verifyDecomposition();
-		String composed = l.verifyComposition();
-		
-		if (decomposed==null) {
-			return composed;
-		} else {
-			return decomposed;
-		}
-		
-//		System.out.println(l.verifyDecomposition());
-//		return l.verifyDecomposition();
+		return l.verifyDecomposition();
 	}
 
 	/**
@@ -400,20 +390,22 @@ public class TreePanel extends JPanel {
 	/**
 	 * Checks that the tree is complete (by checking that no branches are open
 	 * and that all of the branches are closed).
-	 * @return null if complete, an error message otherwise
+	 * @return 0 if all branches close with no open branches, 1 if all branches terminate but at least one is marked open, -1 otherwise
 	 */
-	public String checkCompletion()
+	public int checkCompletion()
 	{
 		boolean isOpen = checkForOpenBranch(root);
 		boolean allClosed = checkForAllClosed(root);
-		if (isOpen || allClosed)
-			return null;
+		if ( !isOpen && allClosed)
+			return 0;
+		else if( !allClosed && !isOpen )
+			return -1;
 		else
-			return "Not all branches are closed and no branch has been marked as open!";
+			return 1;
 	}
 	
 	/**
-	 * Checks if b or any of its children are open
+	 * Recursively checks if b or any of its children are open
 	 * @param b the Branch that is being checked
 	 * @return true if b or any of its children are open
 	 */
@@ -430,7 +422,7 @@ public class TreePanel extends JPanel {
 	}
 	
 	/**
-	 * Checks if b and all if its children are closed
+	 * Recursively checks if b and all if its children are closed
 	 * @param b the Branch being checked for closed
 	 * @return false if b or one of its children is not closed, true otherwise
 	 */
@@ -447,21 +439,58 @@ public class TreePanel extends JPanel {
 	}
 	
 	/**
+	 * Recursively checks if b and all if its children are have verified Terminators
+	 * @param b the Branch being checked for verified terminators
+	 * @return false if b or one of its children has a terminator that is not verified, 
+	 * 	true otherwise
+	 */
+	private boolean verifyTerminators(Branch b)
+	{
+		if (b.getBranches().size() == 0 && !b.verifyTerminations())
+			return false;
+		for (Branch child : b.getBranches())
+		{
+			if (!verifyTerminators(child))
+				return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Runs all of the "check" methods on the whole tree.
 	 * @return null if tree is correct and complete, error message otherwise
 	 */
 	public String check()
 	{
+		String returnVal = "";
+		
+		int completionVal = checkCompletion();
+		boolean verifyEndings = verifyTerminators(root);
+		if (completionVal == 0)
+			if(verifyEndings)
+				return null;
+			else
+				return "There are Branch Terminators that are not referencing correct lines";
+		else if(completionVal == 1)
+			if(verifyEndings)
+				return null;
+			else
+				return "There are Branch Terminators that are not referencing correct lines";
+		else if(completionVal == -1)
+			returnVal = returnVal + "Not all branches are closed and no branch has been marked as open!";
+		
 		String checkRet = checkBranch(premises);
 		if (checkRet != null)
-			return checkRet;
+			returnVal = returnVal + checkRet;
+		
 		String branchVal = checkBranch(root);
 		if (branchVal != null)
-			return branchVal;
-		String completionVal = checkCompletion();
-		if (completionVal != null)
-			return completionVal;
-		return null;
+			returnVal = returnVal + branchVal;
+		
+		if(returnVal.equals(""))
+			return null;
+		else
+			return returnVal;
 	}
 	
 	/**
@@ -817,6 +846,14 @@ public class TreePanel extends JPanel {
 					super.insertString(fb, offset, "\u2200", attr);
 				else if (string.equals("/"))
 					super.insertString(fb, offset, "\u2203", attr);
+				else if (string.equals("|"))
+					super.insertString(fb, offset, "\u2228", attr);
+				else if (string.equals("&"))
+					super.insertString(fb, offset, "\u2227", attr);
+				else if (string.equals("~"))
+					super.insertString(fb, offset, "\u00AC", attr);
+				else if (string.equals("!"))
+					super.insertString(fb, offset, "\u00AC", attr);
 				else
 					super.insertString(fb, offset, string, attr);
 			}
@@ -837,6 +874,14 @@ public class TreePanel extends JPanel {
 					super.replace(fb, offset, length, "\u2200", attrs);
 				else if (text.equals("/"))
 					super.replace(fb, offset, length, "\u2203", attrs);
+				else if (text.equals("|"))
+					super.replace(fb, offset, length, "\u2228", attrs);
+				else if (text.equals("&"))
+					super.replace(fb, offset, length, "\u2227", attrs);
+				else if (text.equals("~"))
+					super.replace(fb, offset, length, "\u00AC", attrs);
+				else if (text.equals("!"))
+					super.replace(fb, offset, length, "\u00AC", attrs);
 				else
 					super.replace(fb, offset, length, text, attrs);
 				
@@ -909,11 +954,15 @@ public class TreePanel extends JPanel {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
+        line.typing = true;
 				if (e.getKeyChar() == KeyEvent.VK_ENTER)
 				{
+          line.typing = false;
 					TreePanel.this.requestFocus();
 				}
 				TreePanel.this.dispatchEvent(e);
+        line.currentTyping = newField.getText();
+        moveComponents();
 			}
 		});
 		// Parse the statement when focus is lost
@@ -921,6 +970,7 @@ public class TreePanel extends JPanel {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
+        line.typing = false;
 				Statement newStatement = ExpressionParser.parseExpression(newField.getText());
 				if (newStatement != null)
 				{
