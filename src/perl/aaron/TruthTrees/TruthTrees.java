@@ -144,8 +144,6 @@ public class TruthTrees {
 					JOptionPane.showMessageDialog(null, "The tree is invalid!\n"+ret);
 			}
 		});
-<<<<<<< HEAD
-=======
 
     JMenuItem checkFolderButton = new JMenuItem("Check Tree Folder");
 
@@ -171,7 +169,6 @@ public class TruthTrees {
         }
       }
     });
->>>>>>> Remembers last opened directory
 		
 		JMenuItem checkLineButton = new JMenuItem("Verify Current Line");
 		

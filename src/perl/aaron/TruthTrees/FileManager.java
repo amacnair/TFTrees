@@ -34,8 +34,6 @@ import perl.aaron.TruthTrees.logic.Statement;
 
 public class FileManager {
 	private static final String EXTENSION = "tft";
-<<<<<<< HEAD
-=======
   private static File SAVEDIR;
 
 
@@ -76,7 +74,6 @@ public class FileManager {
     return files;
   }
   
->>>>>>> Remembers last opened directory
 	public static TreePanel loadFile(TreePanel parent)
 	{
 		final JFileChooser fileChooser = new JFileChooser(SAVEDIR);
@@ -187,7 +184,7 @@ public class FileManager {
 		}
 	}
 	
-	private static TreePanel loadFromFile(File file)
+	public static TreePanel loadFromFile(File file)
 	{
 		try {
 			TreePanel newPanel = new TreePanel(false);
