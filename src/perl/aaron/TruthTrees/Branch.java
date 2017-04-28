@@ -30,7 +30,7 @@ public class Branch {
 	private BranchLine widestLine;
 	private int width;
 	private BranchLine decomposedFrom;
-	
+
 	/**
 	 * Constructs a branch stemming from the given root Branch
 	 * @param root The root Branch to stem from (may be null)
@@ -47,7 +47,7 @@ public class Branch {
 			root.addBranch(this);
 		}
 	}
-	
+
 	/**
 	 * Returns the BranchLine at the given index
 	 * @param index The index of the line to get
