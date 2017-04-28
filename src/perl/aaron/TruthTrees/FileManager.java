@@ -46,13 +46,12 @@ public class FileManager {
     if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION)
     {
       File file = fileChooser.getSelectedFile();
-      SAVEDIR = new File(file.getPath());
       System.out.println(file.getName());
       return listFolderFiles(file);
     }
     return null;
     */
-    File dir = new File("examples");
+    File dir = new File("grading");
     return listFolderFiles(dir);
   }
 
@@ -86,8 +85,16 @@ public class FileManager {
 		}
 		return null;
 	}
+
+  public static void saveFile(TreePanel parent)
+  {
+    if (SAVEDIR == null)
+      saveAsFile(parent);
+    else
+      saveToFile(parent.getRootBranch(), SAVEDIR, parent);
+  }
 	
-	public static void saveFile(TreePanel parent)
+	public static void saveAsFile(TreePanel parent)
 	{
 		final JFileChooser fileChooser = new JFileChooser(SAVEDIR);
 		FileNameExtensionFilter tftFilter = new FileNameExtensionFilter(
