@@ -7,15 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
-import javax.swing.AbstractAction;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
-
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import perl.aaron.TruthTrees.logic.Statement;

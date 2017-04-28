@@ -41,9 +41,6 @@ public class TruthTrees {
 	public static final String errorMessageErrorLogFile = "Error writing to log file";
 	public static final String errorMessageSystemLookAndFeel = "Error setting system look and feel";
 
-  static JLabel obj1 = new JLabel();
-  static JLabel obj2 = new JLabel();
-	
 	public static void popupException(Exception e, String errorMessage)
 	{
 		// get error string
@@ -247,18 +244,6 @@ public class TruthTrees {
 				}
 			}
 		});
-		JMenuItem addLineBeforeButton = new JMenuItem("Add Line Before");
-		
-		treeMenu.add(addLineBeforeButton);
-		addLineBeforeButton.setAccelerator(KeyStroke.getKeyStroke('B', InputEvent.CTRL_MASK));
-		addLineBeforeButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				((TreePanel)frame.getContentPane().getComponent(0)).addLineBefore();
-			}
-    });
-		
 		JMenuItem addLineAfterButton = new JMenuItem("Add Line After");
 		
 		treeMenu.add(addLineAfterButton);
@@ -268,6 +253,18 @@ public class TruthTrees {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((TreePanel)frame.getContentPane().getComponent(0)).addLineAfter();
+			}
+    });
+
+		JMenuItem addLineBeforeButton = new JMenuItem("Add Line Before");
+		
+		treeMenu.add(addLineBeforeButton);
+		addLineBeforeButton.setAccelerator(KeyStroke.getKeyStroke('B', InputEvent.CTRL_MASK));
+		addLineBeforeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((TreePanel)frame.getContentPane().getComponent(0)).addLineBefore();
 			}
     });
 		

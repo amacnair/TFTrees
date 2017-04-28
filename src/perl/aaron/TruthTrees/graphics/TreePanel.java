@@ -300,7 +300,7 @@ public class TreePanel extends JPanel {
 	}
 	
 	/**
-	 * Removes all COMPONENts in the value set of a map from this panel.
+	 * Removes all components in the value set of a map from this panel.
 	 * @param componentMap The map of objects to components to remove.
 	 */
 	private void removeComponentsInMap(Map<? extends Object, ? extends JComponent> componentMap)
@@ -844,7 +844,7 @@ public class TreePanel extends JPanel {
     }
   }
 	
-	public void makeTextFieldForLine(final BranchLine line, final Branch b, final boolean isTerminator)
+	private void makeTextFieldForLine(final BranchLine line, final Branch b, final boolean isTerminator)
 	{
 		final JTextField newField = new JTextField("");
 		newField.setUI(new BasicTextFieldUI() {
