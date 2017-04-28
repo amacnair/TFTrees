@@ -155,7 +155,6 @@ public class TreePanel extends JPanel {
 				repaint();
 			}
 		});
-		moveComponents();
 	}
 	
 	private void recordState()
