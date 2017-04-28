@@ -45,7 +45,7 @@ public class BranchLine {
 		selectedLines = new LinkedHashSet<BranchLine>();
 		isPremise = false;
 	}
-	
+
 	public String toString()
 	{
 		if (statement != null)

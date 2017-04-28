@@ -7,6 +7,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JLabel;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import perl.aaron.TruthTrees.logic.Statement;
@@ -30,7 +39,7 @@ public class Branch {
 	private BranchLine widestLine;
 	private int width;
 	private BranchLine decomposedFrom;
-	
+
 	/**
 	 * Constructs a branch stemming from the given root Branch
 	 * @param root The root Branch to stem from (may be null)
@@ -47,7 +56,7 @@ public class Branch {
 			root.addBranch(this);
 		}
 	}
-	
+
 	/**
 	 * Returns the BranchLine at the given index
 	 * @param index The index of the line to get

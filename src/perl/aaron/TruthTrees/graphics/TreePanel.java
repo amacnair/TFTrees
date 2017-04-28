@@ -300,7 +300,7 @@ public class TreePanel extends JPanel {
 	}
 	
 	/**
-	 * Removes all components in the value set of a map from this panel.
+	 * Removes all COMPONENts in the value set of a map from this panel.
 	 * @param componentMap The map of objects to components to remove.
 	 */
 	private void removeComponentsInMap(Map<? extends Object, ? extends JComponent> componentMap)
@@ -805,8 +805,46 @@ public class TreePanel extends JPanel {
 		moveComponents();
 		return newLine;
 	}
+
+  public void addLineBefore()
+  {
+    if (editLine != null)
+    {
+      System.out.println("Adding line before "+editLine);
+      for (int i = 0; i < editLine.getParent().numLines(); i++)
+      {
+        if (editLine.getParent().getLine(i) == editLine)
+        {
+          final BranchLine newline;
+          newline = editLine.getParent().addStatement(null, i);
+          makeTextFieldForLine(newline, editLine.getParent(), false);
+          moveComponents();
+          return;
+        }
+      }
+    }
+  }
+
+  public void addLineAfter()
+  {
+    if (editLine != null && !(editLine instanceof BranchTerminator))
+    {
+      System.out.println("Adding line after "+editLine);
+      for (int i = 0; i < editLine.getParent().numLines(); i++)
+      {
+        if (editLine.getParent().getLine(i) == editLine)
+        {
+          final BranchLine newline;
+          newline = editLine.getParent().addStatement(null, i+1);
+          makeTextFieldForLine(newline, editLine.getParent(), false);
+          moveComponents();
+          return;
+        }
+      }
+    }
+  }
 	
-	private void makeTextFieldForLine(final BranchLine line, final Branch b, final boolean isTerminator)
+	public void makeTextFieldForLine(final BranchLine line, final Branch b, final boolean isTerminator)
 	{
 		final JTextField newField = new JTextField("");
 		newField.setUI(new BasicTextFieldUI() {

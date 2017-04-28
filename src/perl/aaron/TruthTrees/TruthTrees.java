@@ -40,6 +40,9 @@ public class TruthTrees {
 	public static final String errorFrameName = "Truth Trees Error";
 	public static final String errorMessageErrorLogFile = "Error writing to log file";
 	public static final String errorMessageSystemLookAndFeel = "Error setting system look and feel";
+
+  static JLabel obj1 = new JLabel();
+  static JLabel obj2 = new JLabel();
 	
 	public static void popupException(Exception e, String errorMessage)
 	{
@@ -100,6 +103,7 @@ public class TruthTrees {
 		logException(e, errorMessage);
 		popupException(e, errorMessage);
 	}
+
 	
 	public static void main(String[] args) {
 		try {
@@ -112,7 +116,6 @@ public class TruthTrees {
 		
 		final JFrame frame = new JFrame("Truth Tree");
 		frame.setLayout(new BorderLayout());
-		
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -169,6 +172,8 @@ public class TruthTrees {
         }
       }
     });
+
+    treeMenu.addSeparator();
 		
 		JMenuItem checkLineButton = new JMenuItem("Verify Current Line");
 		
@@ -185,7 +190,7 @@ public class TruthTrees {
 					JOptionPane.showMessageDialog(null, ret);
 			}
 		});
-		
+
 		JMenuItem saveButton = new JMenuItem("Save");
 		
 		fileMenu.add(saveButton);
@@ -242,6 +247,29 @@ public class TruthTrees {
 				}
 			}
 		});
+		JMenuItem addLineBeforeButton = new JMenuItem("Add Line Before");
+		
+		treeMenu.add(addLineBeforeButton);
+		addLineBeforeButton.setAccelerator(KeyStroke.getKeyStroke('B', InputEvent.CTRL_MASK));
+		addLineBeforeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((TreePanel)frame.getContentPane().getComponent(0)).addLineBefore();
+			}
+    });
+		
+		JMenuItem addLineAfterButton = new JMenuItem("Add Line After");
+		
+		treeMenu.add(addLineAfterButton);
+		addLineAfterButton.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_MASK));
+		addLineAfterButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((TreePanel)frame.getContentPane().getComponent(0)).addLineAfter();
+			}
+    });
 		
 		JMenuItem deleteButton = new JMenuItem("Delete Selected Line");
 		
