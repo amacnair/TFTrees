@@ -478,9 +478,10 @@ public class TreePanel extends JPanel {
 		boolean hasOpen = checkForOpenBranch(b);
 		System.out.println("hasOpen: " + hasOpen);
 		
-		if (hasOpen) {
+		if (hasOpen) { //If there are open branches in the current level or below
+			
+			// Check that the open branch is valid
 			boolean validOpen = verifyOpenTerminator(b);
-			System.out.println("Open branch is valid: " + validOpen);
 			if (validOpen) {
 				return true;
 			}
@@ -489,11 +490,8 @@ public class TreePanel extends JPanel {
 			}
 			
 		}
-		else {
-			System.out.println("numBranches: " + b.getBranches().size());
-			
+		else { //No open branches in tree, proceed as normal
 			if (b.getBranches().size() == 0 && !b.verifyTerminations()) {
-				System.out.println("ENDING HERE");
 				return false;
 			}
 			
@@ -502,22 +500,8 @@ public class TreePanel extends JPanel {
 					return false;
 				}
 			}
-			
 		}
 		
-
-		
-
-		
-		
-		
-//		if (b.getBranches().size() == 0 && !b.verifyTerminations())
-//			return false;
-//		for (Branch child : b.getBranches())
-//		{
-//			if (!verifyTerminators(child))
-//				return false;
-//		}
 		return true;
 	}
 	
@@ -541,9 +525,9 @@ public class TreePanel extends JPanel {
 		
 		else if(completionVal == 1) //At least one open branch
 			if(verifyEndings) {
-				String checkRet = checkBranch(premises);
-				if (checkRet != null)
-					returnVal = returnVal +"premises " + checkRet;
+//				String checkRet = checkBranch(premises);
+//				if (checkRet != null)
+//					returnVal = returnVal +"premises " + checkRet;
 				
 				String branchVal = checkBranch(root);
 				if (branchVal != null)
