@@ -438,6 +438,35 @@ public class TreePanel extends JPanel {
 	}
 	
 	/**
+	 * Recursively checks if the branch b has a valid open terminator
+	 * @param b the branch being checked for a valid open branch
+	 * @return true if b has a valid open terminator, false otherwise
+	 */
+	private boolean verifyOpenTerminator(Branch b)
+	{
+		// If there are no open branches anywhere return false
+		if (!checkForOpenBranch(b)) {
+			return false;
+		}
+		
+		if (b.getBranches().size() == 0 && b.isOpen()) {
+			return b.verifyTerminations();
+		}
+		
+		if (b.getBranches().size() == 0 && !b.isOpen())
+			return false;
+		
+		for (Branch child : b.getBranches()) {
+			if (checkForOpenBranch(child)) {
+				return verifyOpenTerminator(child);
+			}
+		}
+		
+		return false;
+		
+	}
+	
+	/**
 	 * Recursively checks if b and all if its children are have verified Terminators
 	 * @param b the Branch being checked for verified terminators
 	 * @return false if b or one of its children has a terminator that is not verified, 
@@ -445,13 +474,50 @@ public class TreePanel extends JPanel {
 	 */
 	private boolean verifyTerminators(Branch b)
 	{
-		if (b.getBranches().size() == 0 && !b.verifyTerminations())
-			return false;
-		for (Branch child : b.getBranches())
-		{
-			if (!verifyTerminators(child))
+		
+		boolean hasOpen = checkForOpenBranch(b);
+		System.out.println("hasOpen: " + hasOpen);
+		
+		if (hasOpen) {
+			boolean validOpen = verifyOpenTerminator(b);
+			System.out.println("Open branch is valid: " + validOpen);
+			if (validOpen) {
+				return true;
+			}
+			else {
 				return false;
+			}
+			
 		}
+		else {
+			System.out.println("numBranches: " + b.getBranches().size());
+			
+			if (b.getBranches().size() == 0 && !b.verifyTerminations()) {
+				System.out.println("ENDING HERE");
+				return false;
+			}
+			
+			for (Branch child: b.getBranches()) {
+				if (!verifyTerminators(child)) {
+					return false;
+				}
+			}
+			
+		}
+		
+
+		
+
+		
+		
+		
+//		if (b.getBranches().size() == 0 && !b.verifyTerminations())
+//			return false;
+//		for (Branch child : b.getBranches())
+//		{
+//			if (!verifyTerminators(child))
+//				return false;
+//		}
 		return true;
 	}
 	
@@ -464,19 +530,35 @@ public class TreePanel extends JPanel {
 		String returnVal = "";
 		
 		int completionVal = checkCompletion();
+		System.out.println("completetionVal: " + completionVal);
 		boolean verifyEndings = verifyTerminators(root);
-		if (completionVal == 0)
+		
+		if (completionVal == 0) //No open branches
 			if(verifyEndings)
 				return null;
 			else
-				return "There are Branch Terminators that are not referencing correct lines";
-		else if(completionVal == 1)
-			if(verifyEndings)
-				return null;
+				return "There are Branch Terminators that are not referencing correct lines.\n";
+		
+		else if(completionVal == 1) //At least one open branch
+			if(verifyEndings) {
+				String checkRet = checkBranch(premises);
+				if (checkRet != null)
+					returnVal = returnVal +"premises " + checkRet;
+				
+				String branchVal = checkBranch(root);
+				if (branchVal != null)
+					returnVal = returnVal + "root!! " + branchVal;
+				
+				if(returnVal.equals(""))
+					return null;
+				else
+					return returnVal;
+			}
 			else
-				return "There are Branch Terminators that are not referencing correct lines";
+				return "Not all statements are decomposed on open branch.";
+		
 		else if(completionVal == -1)
-			returnVal = returnVal + "Not all branches are closed and no branch has been marked as open!";
+			returnVal = returnVal + "Not all branches are closed and no branch has been marked as open!\n";
 		
 		String checkRet = checkBranch(premises);
 		if (checkRet != null)
