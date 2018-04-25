@@ -483,6 +483,10 @@ public class Branch {
 		decomposedFrom = line;
 	}
 	
+	/**
+	 * Returns the BranchLine that this branch is decomposed from
+	 * @return A {@link perl.aaron.TruthTrees.BrachLine BranchLine} object
+	 */
 	public BranchLine getDecomposedFrom()
 	{
 		return decomposedFrom;
