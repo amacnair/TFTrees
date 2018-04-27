@@ -76,7 +76,15 @@ public class AtomicStatement extends Statement implements Composable {
 	
 	@Override
 	public String verifyComposition(Set<BranchLine> selectedBranchLines) {
-		//System.out.println("Wtf");
+		
+		
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		if (selectedBranchLines.size() == 2) {
 			
@@ -119,7 +127,7 @@ public class AtomicStatement extends Statement implements Composable {
 			
 		}
 		
-		
+		System.out.println(selectedBranchLines.size());
 		if (selectedBranchLines.size() != 0) {
 			return "Statement \"" + toString() + "\" cannot be composed like this";
 			
