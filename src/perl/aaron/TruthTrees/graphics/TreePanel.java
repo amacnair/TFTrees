@@ -59,6 +59,7 @@ import perl.aaron.TruthTrees.Branch;
 import perl.aaron.TruthTrees.BranchLine;
 import perl.aaron.TruthTrees.BranchTerminator;
 import perl.aaron.TruthTrees.ExpressionParser;
+import perl.aaron.TruthTrees.logic.Conjunction;
 import perl.aaron.TruthTrees.logic.Decomposable;
 import perl.aaron.TruthTrees.logic.Negation;
 import perl.aaron.TruthTrees.logic.Statement;
@@ -478,7 +479,6 @@ public class TreePanel extends JPanel {
 	private boolean verifyTerminators(Branch b)
 	{
 		boolean hasOpen = checkForOpenBranch(b);
-		System.out.println("hasOpen: " + hasOpen);
 		
 		if (hasOpen) { //If there are open branches in the current level or below
 			
@@ -516,26 +516,22 @@ public class TreePanel extends JPanel {
 	private Set<Branch> findOpenBranches(Branch b, Set<Branch> open) {
 		boolean hasOpen = checkForOpenBranch(b);
 		if (hasOpen) {
-			System.out.println("Have Open Branch");
 			
 			if (b.getBranches().size() > 0) {
-				System.out.println("Have Children.");
+				// Has children
 				for (Branch child : b.getBranches()) {
 					
 					if (checkForOpenBranch(child)) { //Recurse into children with open branches
-						System.out.println("Recursing");
 						return findOpenBranches(child, open);
 					}
 				}
-			}
-			else {
-				System.out.println("No Children.");
+			} else {
+				// No children
 				open.add(b);
 				return open;
 			}
-		}
-		else {
-			System.out.println("No Open Branch");
+		} else {
+			// No open branch
 			open.add(b);
 			return open;
 		}
@@ -565,12 +561,18 @@ public class TreePanel extends JPanel {
 			
 			BranchLine line = b.getLine(i);
 			
-			System.out.println("Verifying " + line.getStatement());
+			Set<Branch> targetBranches = line.getSelectedBranches();
+			Set<BranchLine> targetLines = line.getSelectedLines();
 			
-			Set<Branch> targets = line.getSelectedBranches();
+			// For cases such as conjunctions where the decomposition results in new lines add the parent to be checked
+			if (line.getStatement() instanceof Conjunction) {
+				for (BranchLine t : targetLines) {
+					targetBranches.add(t.getParent());
+				}
+			}
 			
 			// Loop through each of the selected branches where the premise is decomposed 
-			for (Branch t : targets) {
+			for (Branch t : targetBranches) {
 				
 				// Only look at cases where the target has an open terminator below it
 				if (checkForOpenBranch(t)) {
@@ -579,12 +581,9 @@ public class TreePanel extends JPanel {
 					for (Branch openBranch : openBranches) {
 						if (openBranch.isChildOf(t)) {
 							if (line.getStatement() instanceof Decomposable && !(line.getStatement() instanceof Negation)) {
-								System.out.println("OPEN BRANCH IS CHILD");
+								// Mark that this premise is decomposed 
 								premiseMap.put(line, true);
 							}
-						}
-						else {
-							System.out.println("OPEN BRANCH IS NOT CHILD");
 						}
 					}
 				}
@@ -622,13 +621,12 @@ public class TreePanel extends JPanel {
 			if(verifyEndings) {
 				
 				String checkRet = verifyPremisesOpenBranch(premises);
-//				checkBranch(premises);
 				if (checkRet != null)
 					returnVal = returnVal + checkRet;
 				
-				String branchVal = checkBranch(root);
-				if (branchVal != null)
-					returnVal = returnVal + "root!! " + branchVal;
+//				String branchVal = checkBranch(root);
+//				if (branchVal != null)
+//					returnVal = returnVal + "root!! " + branchVal;
 				
 				if(returnVal.equals(""))
 					return null;
@@ -636,7 +634,7 @@ public class TreePanel extends JPanel {
 					return returnVal;
 			}
 			else
-				return "Not all statements are decomposed on open branch.";
+				return "Not all premises are decomposed on open branch OR Invalid usage of open branch.";
 		
 		else if(completionVal == -1)
 			returnVal = returnVal + "Not all branches are closed and no branch has been marked as open!\n";

@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import perl.aaron.TruthTrees.logic.AtomicStatement;
-import perl.aaron.TruthTrees.logic.Composable;
+//import perl.aaron.TruthTrees.logic.Composable;
 import perl.aaron.TruthTrees.logic.Decomposable;
 import perl.aaron.TruthTrees.logic.Statement;
 import perl.aaron.TruthTrees.logic.Negation;
@@ -113,21 +113,21 @@ public class BranchLine {
 		if (statement == null)
 			return null;
 		
-		// also check if the statement is not branching on any statement + negation of that statement
-		if (verifyIsBranchOn()) {
-			return null;
-		}
+//		// also check if the statement is not branching on any statement + negation of that statement
+//		if (verifyIsBranchOn()) {
+//			return null;
+//		}
 		
-		if (statement instanceof Composable) {
-			String resultComposable = ((Composable) statement).verifyComposition(selectedLines);
-			
-			if (resultComposable.equals("composable")) {
-				return null;
-			}
-			if (!resultComposable.equals("X")) {
-				return resultComposable;
-			}
-		}
+//		if (statement instanceof Composable && !(statement instanceof Negation)) {
+//			String resultComposable = ((Composable) statement).verifyComposition(selectedLines);
+//			
+//			if (resultComposable.equals("composable")) {
+//				return null;
+//			}
+//			if (!resultComposable.equals("X")) {
+//				return resultComposable;
+//			}
+//		}
 		
 		if (decomposedFrom == null && !isPremise) {
 			return "Unexpected statement \"" + statement.toString() + "\" in tree";
