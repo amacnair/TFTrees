@@ -29,6 +29,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -597,6 +598,48 @@ public class TreePanel extends JPanel {
 		return error;
 	}
 
+	/**
+	 * Checks for any unexpected constants in a branch 
+	 * @param b Branch to be checked
+	 * @return Empty string if ok, error message if problem
+	 */
+	public String checkBranchConstants(Branch b) {
+		
+		String ret = "";
+		
+		if (b.numLines() > 0) {
+			
+			for (int i = 0; i < b.numLines(); ++i) {
+				BranchLine line = b.getLine(i);
+				
+				String vRet = line.verifyOpenDecomposition();
+				if (vRet != null) {
+					ret += vRet;
+				}
+			}
+			
+//			Set<String> preConsts = new LinkedHashSet<String>();
+//			Set<String> thisConsts = new LinkedHashSet<String>();
+//			System.out.println(b.getConstants().size());
+//			
+//			preConsts.addAll(b.getConstantsBefore(b.getLine(0)));
+//			thisConsts.addAll(b.getConstantsThis());
+//			System.out.println("Before: " + String.join(", ", b.getConstantsBefore(b.getLine(0))) + "\n");
+//			System.out.println("This: " + thisConsts.toString() + "\n");
+//			thisConsts.removeAll(preConsts);
+//			
+//			if (preConsts.size() > 0) {
+//				for (String c : thisConsts) {
+//					ret += "Unexpected constant " + c + " in tree.\n";
+//				}
+//			}
+		}
+		
+		for (Branch child: b.getBranches()) {
+			ret += checkBranchConstants(child);
+		}
+		return ret;
+	}
 
 	
 	/**
@@ -623,6 +666,12 @@ public class TreePanel extends JPanel {
 				String checkRet = verifyPremisesOpenBranch(premises);
 				if (checkRet != null)
 					returnVal = returnVal + checkRet;
+				
+				String varRet = checkBranchConstants(root);
+				if (!varRet.equals(""))
+					returnVal = returnVal + varRet;
+					
+				
 				
 //				String branchVal = checkBranch(root);
 //				if (branchVal != null)

@@ -434,7 +434,7 @@ public class Branch {
 	 * Returns the set of all constants in this branch, not including parents or children
 	 * @return The set of all constants in this branch
 	 */
-	private Set<String> getConstantsThis() {
+	public Set<String> getConstantsThis() {
 		Set<String> constants = new LinkedHashSet<String>();
 		for (BranchLine line : lines)
 		{
